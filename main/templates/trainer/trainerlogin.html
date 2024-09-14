@@ -1,0 +1,40 @@
+{% extends "base.html" %} {% block content %} {% load static %}
+
+<!-- Main Start -->
+<main>
+  <head>
+    <title>GymSync - Trainer Login</title>
+  </head>
+
+  <!-- Login -->
+  <section class="container my-4">
+    <h1 class="text-center mb-4 section-heading border-bottom pb-2">
+      Trainer Login
+    </h1>
+    <div class="row">
+      <!--Col-md-6 stands for 6 columns, 3 right and 3 left and the login form will be md medium-->
+      <div class="col-md-6 offset-3">
+        <!-- Show a message after the user submit an enquiry-->
+        {% if msg %}
+        <p class="text-warning">{{msg}}</p>
+        {% endif %}
+
+        <!-- save the posted enquiry with csrf_token-->
+        <form method="post" action="">
+          {% csrf_token %}
+          <table class="table table-bordered">
+            {{form.as_table}}
+            <tr>
+              <td colspan="2">
+                <input type="submit" class="btn btn-primary" />
+              </td>
+            </tr>
+          </table>
+        </form>
+      </div>
+    </div>
+  </section>
+  <!-- End -->
+</main>
+<!-- End -->
+{% endblock%}

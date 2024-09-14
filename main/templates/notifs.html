@@ -1,0 +1,116 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<style type="text/css">
+  .marked {
+    display: none;
+  }
+</style>
+
+<!-- Main Start -->
+<main>
+  <head>
+    <title>GymSync - User Dashboard/Notifications</title>
+  </head>
+
+  <section class="container my-4">
+    <div class="row">
+      <div class="col-3">{% include 'user/left_sidebar.html' %}</div>
+      <div class="col-9">
+        <h3 class="mb-4 border-bottom pb-1">
+          <!-- show the count of the notifications -->
+          Notifications <span class="badge bg-dark totalunread"> ...</span>
+        </h3>
+        <span type="ajaxRes"> </span>
+        <ul class="list-group notif-list table-bordered">
+          Loading...
+        </ul>
+      </div>
+    </div>
+  </section>
+  <!-- End -->
+</main>
+
+<!-- Notifications -->
+<!-- Get the notifications updated using AJAX respose and JSON and set an update interval without refreshing the page -->
+<script type="text/javascript">
+  $(document).ready(function () {
+    $(".ajaxRes").hide();
+    setInterval(function () {
+      $.ajax({
+        url: "{% url 'get_notifs' %}",
+        dataType: "json",
+        beforeSend: function () {
+          $(".ajaxRes").show();
+          $(".ajaxRes").text("loading...");
+        },
+
+        success: function (res) {
+          _html = "";
+          $(".totalunread").text(res.totalUnread);
+          $.each(res.data, function (index, d) {
+            if (d.notifStatus == true) {
+              _html +=
+                '<li class="list-group-item list' +
+                d.pk +
+                '">' +
+                d.notify_detail +
+                '<button data-index="' +
+                d.pk +
+                '" data-notif="' +
+                d.pk +
+                '" class="btn btn-sm btn-secondary float-end markreadbtn markreadbtn ' +
+                d.pk +
+                ' style="display:none;"">Mark Read</button> <button class="btn button-success btn-sm marked ' +
+                d.pk +
+                ' float-end"><i class="bi bi-check-all"></i></button> </li>';
+            } else {
+              _html +=
+                '<li class="list-group-item bg-light list' +
+                d.pk +
+                '">' +
+                d.notify_detail +
+                '<button data-index="' +
+                d.pk +
+                '" data-notif="' +
+                d.pk +
+                '" class="btn btn-sm btn-secondary float-end markreadbtn markreadbtn ' +
+                d.pk +
+                ' ">Mark Read</button> <button class="btn button-success btn-sm marked marked ' +
+                d.pk +
+                ' float-end"><i class="bi bi-check-all"></i></button> </li>';
+            }
+          });
+          $(".notif-list").html(_html);
+          $(".ajaxRes").hide();
+        },
+      });
+    }, 5000);
+
+    // Mark as read section
+    $(document).on("click", ".markreadbtn", function () {
+      var _index = $(this).attr("data-index");
+      var _notif = $(this).attr("data-notif");
+
+      $(".ajaxRes").hide();
+      setInterval(function () {
+        $.ajax({
+          url: "{% url 'mark_read_notif' %}",
+          data: {
+            _indexnotif: _notif,
+          },
+          dataType: "json",
+          beforeSend: function () {},
+          // Remove the background when clicking the mark read button
+          success: function (res) {
+            if (res.bool == true) {
+              $(".list" + _index).removeClass("bg-light");
+              $(".markreadbtn" + _index).hide();
+              $(".marked" + _index).show();
+            }
+          },
+        });
+      });
+    });
+  });
+</script>
+
+{% endblock %}

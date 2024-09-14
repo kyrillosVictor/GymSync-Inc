@@ -1,0 +1,12 @@
+{% extends "base.html" %} {% block content %}
+<main>
+  <!-- Page -->
+  <!-- Make a loop for the pages that are added in the admin panel so tha page get its name from the admin panel -->
+  <section class="container my-4">
+    <h1 class="text-center mb-4 section-heading border-bottom pb-2">
+      {{page.title}}
+    </h1>
+    <p>{{page.detail}}</p>
+  </section>
+</main>
+{% endblock %}

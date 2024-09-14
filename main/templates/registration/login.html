@@ -1,0 +1,47 @@
+{% extends "base.html" %} {% block content %} {% load static %}
+
+<!-- If user is not logged in then they get the form -->
+{%if not request.user.is.authenticated %}
+
+<!-- Main Start -->
+<main>
+  <head>
+    <title>GymSync - Login</title>
+  </head>
+
+  <!-- Login -->
+  <section class="container my-4">
+    <h1 class="text-center mb-4 section-heading border-bottom pb-2">Login</h1>
+    <div class="row">
+      <!--Col-md-6 stands for 6 columns, 3 right and 3 left and the login form will be md medium-->
+      <div class="col-md-6 offset-3">
+        <!-- Show a message after the user submit an enquiry-->
+        {% if msg %}
+        <p class="text-success">{{msg}}</p>
+        {% endif %}
+
+        <!-- save the posted enquiry with csrf_token-->
+        <form method="post" action="">
+          {% csrf_token %}
+          <table class="table table-bordered">
+            {{form.as_table}}
+            <tr>
+              <td colspan="2">
+                <input type="submit" class="btn btn-primary" />
+              </td>
+            </tr>
+          </table>
+        </form>
+        <!-- Add a link to the sign up page for new users -->
+        <p>If you're new, please <a href="{% url "signup" %}">Sign Up</p>
+      </div>
+    </div>
+  </section>
+  <!-- End -->
+</main>
+<!-- End -->
+
+<!-- Incase user is logged in and clicks the login link again they will get "already logged in" message-->
+{% else %}
+<p>You're already logged in</p>
+{% endif %} {% endblock%}

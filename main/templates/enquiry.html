@@ -1,0 +1,41 @@
+{% extends "base.html" %} {% block content %} {% load static %}
+<!-- Main Start -->
+<main>
+  <head>
+    <title>GymSync - Enquiry</title>
+  </head>
+
+  <!-- Enquiry form if users are facing issues or having a question -->
+  <section class="container my-4">
+    <h1 class="text-center mb-4 section-heading border-bottom pb-2">
+      Enquiry Form
+    </h1>
+    <div class="row">
+      <div class="col-md-6">
+        <img src={% static "images/enquiry.png" %} class="img-fluid" />
+      </div>
+      <div class="col-md-6">
+        <!-- Show a message after the user submit an enquiry-->
+        {% if msg %}
+        <p class="text-success">{{msg}}</p>
+        {% endif %}
+
+        <!-- save the posted enquiry with csrf_token-->
+        <form method="post" action="{% url 'enquiry' %}">
+          {% csrf_token %}
+          <table class="table table-bordered">
+            {{form.as_table}}
+            <tr>
+              <td colspan="2">
+                <input type="submit" class="btn btn-primary" />
+              </td>
+            </tr>
+          </table>
+        </form>
+      </div>
+    </div>
+  </section>
+  <!-- End -->
+</main>
+<!-- End -->
+{% endblock%}

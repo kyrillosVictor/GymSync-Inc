@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+{% extends "base.html" %} {% block content %} {% load static %}
+<main>
+
+  <head>
+    <title>GymSync - Gym Management, Trainers & Trainees System</title>
+  </head>
+  
+  <!-- banner Start -->
+  <div
+    id="carouselExampleControls"
+    class="carousel slide"
+    data-bs-ride="carousel"
+  >
+    <!--Looping on banner pictures-->
+    <div class="carousel-inner">
+      {% for banner in banners %}
+      <div
+        class="carousel-item {% if forloop.counter == 1 %} active {% endif %}"
+      >
+        <img src="{{banner.img.url}}" class="d-block w-100" alt="slide 1" />
+      </div>
+      {% endfor %}
+    </div>
+    <!--Next and Previous buttons for banner pictures-->
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-bs-target="#carouselExampleControls"
+      data-bs-slide="prev"
+    >
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-bs-target="#carouselExampleControls"
+      data-bs-slide="next"
+    >
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <!-- End Banner -->
+
+  <!-- Services -->
+  <!-- Make a loop for the services hat are added in the admin panel -->
+  <section class="container my-4">
+    <h1 class="text-center mb-4 section-heading">Services</h1>
+    <div class="row">
+      {% for service in services %}
+      <div class="col-md-4">
+        <div class="card">
+          <img src="{{service.img.url}}" class="card-img-top" alt="..." />
+          <div class="card-body">
+            <h3 class="card-title">{{service.title}}</h3>
+            <p class="card-text">{{service.detail}}</p>
+            <a href="#" class="btn btn-primary">Read More</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  <!-- End -->
+
+  <!-- Testimonials -->
+  <section class="container-fluid bg-light py-4 mt-5 border-top border-bottom">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+          <h1 class="mb-4 section-heading">About Us</h1>
+          <p class="lh-base">
+            This is A web-based application to manage gym memberships, classes,
+            trainers, and other related operations. This project aims to
+            simplify the administration and operational tasks of gym management
+            by providing an easy-to-use interface for gym owners, staff, and members.
+          </p>
+          <p>
+            <a href="{% url 'pagedetail' 1 %}" class="btn btn-info text-white"
+              >Read More</a
+            >
+          </p>
+        </div>
+        <!-- Gallery section in the home page -->
+        <div class="col-md-6 offset-1">
+          <h1 class="mb-4 section-heading">
+            Gallery
+            <a href="{% url "gallery" %}" class="float-end btn btn-info text-white mt-2"
+              >View All</a
+            >
+          </h1>
+          <div class="gallery">
+            {% for gimg in gimgs %}
+            <a href="{{gimg.img.url}}" data-lightbox="gallery">
+              <img
+                src="{{gimg.img.url}}"
+                width="125"
+                class="img-thumbnail"
+                alt="GymSync Gallery"
+              />
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End Testimonials -->
+
+  <!-- LightBox css -->
+    <link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static 'lightbox2-2.11.3/dist/css/lightbox.min.css' %}"
+    />
+    <!-- LightBox Js -->
+    <script
+    type="text/javascript"
+    src="{% static 'lightbox2-2.11.3/dist/js/lightbox.min.js' %}"
+    ></script>
+</main>
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+
+<!-- Main Start -->
+<main>
+  <head>
+    <title>GymSync - User Dashboard</title>
+  </head>
+
+  <section class="container my-4">
+    <div class="row">
+      <div class="col-3">
+        {% include 'user/left_sidebar.html' %}</div>
+      <div class="col-9">
+        <h3 class="mb-4 border-bottom pb-1">Dashboard</h3>
+        <!-- Show User's Current plan, price, and assigned trainer-->
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card">
+              <h5 class="card-header">Current Package</h5>
+              <div class="card-body">
+                <h6 class="card-text text-success">{{current_plan.plan}}</h6>
+                <p>Price: EGP{{current_plan.price}}</p>
+                <p>Subscribed on {{current_plan.reg_date}}</p>
+                <p>Valid till {{end_date}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <!-- The assigned Triner profile, image and social media links-->
+              <h5 class="card-header">Assigned Trainer</h5>
+
+              <div class="card-body">
+                <h6 class="card-text margin:15px">
+                  Coach: {{my_trainer.trainer.full_name}}
+                  <img
+                    src="{{my_trainer.trainer.img.url}}"
+                    class="rounded float-right img-thumbnail"
+                    alt="{{my_trainer.trainer.full_name}} "
+                  />
+                </h6>
+              </div>
+              <div class="card-footer">
+                <a href="{{my_trainer.trainer.facebook}}" title="Facebook">
+                  <i class="fa fa-facebook"></i
+                ></a>
+                <a href="{{my_trainer.trainer.instagram}}" title="Instagram">
+                  <i class="fa fa-instagram"></i
+                ></a>
+                <a href="{{my_trainer.trainer.twitter}}" title="Twitter">
+                  <i class="fa fa-twitter"></i
+                ></a>
+                <a href="{{my_trainer.trainer.youtube}}" title="Youtube">
+                  <i class="fa fa-youtube"></i
+                ></a>
+                <a href="{{my_trainer.trainer.blog}}" title="Blog">
+                  <i class="fa fa-blogger-b"></i>B</a
+                >
+
+                <!-- Trainer's achievments-->
+                <button
+                  data-toggle="modal"
+                  data-target="#AchievmentModal"
+                  title="Achievments"
+                  class="float-end btn btn-sm btn-success"
+                >
+                  <i class="fa fa-trophy"></i>
+                </button>
+                <!-- Modal -->
+                <div
+                  class="modal fade"
+                  id="AchievmentModal"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="exampleModalLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                          {{my_trainer.trainer.full_name}}'s Achievments
+                        </h5>
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="modal"
+                          aria-label="Close"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <table class="table table-hover">
+                          <thead>
+                            <tr>
+                              <th>Title</th>
+                              <th>Image</th>
+                              <th>Date</th>
+                              <th>Details</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for acheivement in my_trainer.trainer.traineracheivement_set.all %}
+                            <tr>
+                              <th>{{acheivement.title}}</th>
+                              <th>
+                                <img src="{{acheivement.img.url}}" width="80" />
+                              </th>
+                              <th>{{acheivement.detail}}</th>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End -->
+</main>
+{% endblock %}

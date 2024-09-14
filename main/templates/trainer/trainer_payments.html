@@ -1,0 +1,33 @@
+{% extends "base.html" %} {% block content %}
+
+<!-- Main Start -->
+<main>
+  <head>
+    <title>GymSync - Trainer Dashboard/Payments</title>
+  </head>
+
+  <section class="container my-4">
+    <div class="row">
+      <div class="col-3">{% include 'trainer/left_sidebar.html' %}</div>
+      <div class="col-6">
+        <h3 class="mb-4 border-bottom pb-1">Payments List</h3>
+        <table class="table table-bordered">
+            <thead>{{tp.trainer}}
+                <tr>
+                    <th>Payment</th>
+                    <th>Date</th>
+                </tr>
+                {% for tp in trainer_pays %}
+                <tr>
+                    <td>EGP {{tp.amount}}</td>
+                    <td>{{tp.amount_date}}</td>
+                </tr>
+                {% endfor %}
+            </thead>
+        </table>
+      </div>
+    </div>
+  </section>
+  <!-- End -->
+</main>
+{% endblock %}
