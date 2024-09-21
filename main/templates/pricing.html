@@ -1,4 +1,6 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+{% block content %}
+{% load check_package %}
 {% load mathfilters %}
 {% load static %}
 <main>
@@ -33,13 +35,30 @@
             <ul class="list-unstyled mt-3 mb-4">
               {% for feature in plan.subplanfeature_set.all %}
               <li>{{feature.feature}}</li>
-              
               {% endfor %}
             </ul>
-            {% if not request.user.is.authenticated %}
-            <a href="{% url 'login' %}" type="button" class="w-100 btn btn-lg btn-outline-primary" >Get started</a>
+
+            
+            {% if request.user.is.authenticated %}
+
+            <!-- Check on the subscribed package, and show already purchased under the plan which user has signed up for -->
+            {% check_user_package request.user.id plan.id as check_pckg %}
+            <!-- Check the valid days left in the subscription for the subscribed plan -->
+            {% check_pckg_validity request.user.id plan.id as check_validity %}
+              
+              {% if check_pckg %}
+                {% if check_validity %}
+                    <!-- Instead of showing expired, will show get started so the user can subscribe again-->
+                    <a href="{% url 'login' %}" type="button" class="w-100 btn btn-lg btn-outline-primary" >Get started</a>
+                  {% else %}
+                    <a href="#" class="w-100 btn btn-lg btn-dark disabled">Purchased</a>
+                  {% endif %}
+              {% else %}
+                <a href="{% url 'checkout' plan.id %}" type="button" class="w-100 btn btn-lg btn-outline-primary">Get started</a>
+              {% endif %}
+
             {% else %}
-            <a href="{%url 'checkout' plan.id %}" type="button" class="w-100 btn btn-lg btn-outline-primary">Get started</a>
+              <a href="{% url 'login' %}" type="button" class="w-100 btn btn-lg btn-outline-primary" >Get started</a>
             {% endif %}
           </div>
         </div>

@@ -9,7 +9,9 @@
   
   <a href="{% url 'trainer_change_password'%}" class="list-group-item {%if request.path == '/trainer_change_password'%} active {% endif %}">Change Password</a>
   
-  <a href="{% url 'trainer_notifs'%}" class="list-group-item {%if request.path == '/trainer_notifs'%} active {% endif %}">Notifications <span class="float-end badge bg-info mt-1">{{ notifs.count }}</span></a>
+  <a href="{% url 'trainer_notifs'%}" class="list-group-item {%if request.path == '/trainer_notifs'%} active {% endif %}">Notifications <span class="float-end badge bg-info mt-1 totalUnread">{{ totalUnread }}</span></a>
   
   <a href="{% url 'messages'%}" class="list-group-item {%if request.path == '/messages'%} active {% endif %}">Messages <span class="float-end badge bg-info mt-1">{{ msgs.count }}</span></a>
+
+  <a href="{% url 'report_for_user'%}" class="list-group-item {%if request.path == '/report_for_user'%} active {% endif %}">Report For Users </a>
 </div>

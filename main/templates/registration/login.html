@@ -1,4 +1,6 @@
-{% extends "base.html" %} {% block content %} {% load static %}
+{% extends "base.html" %} 
+{% block content %} 
+{% load static %}
 
 <!-- If user is not logged in then they get the form -->
 {%if not request.user.is.authenticated %}
@@ -44,4 +46,5 @@
 <!-- Incase user is logged in and clicks the login link again they will get "already logged in" message-->
 {% else %}
 <p>You're already logged in</p>
-{% endif %} {% endblock%}
+{% endif %} 
+{% endblock%}

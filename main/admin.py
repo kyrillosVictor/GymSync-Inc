@@ -142,10 +142,10 @@ admin.site.register(models.TrainerNotification, TrainerNotificationAdmin)
 
 
 # Trainer Notifications
-class TrainerNotificationStatusAdmin(admin.ModelAdmin):
-    list_display = ('notif_msg',)
+class TrainerNotifStatusAdmin(admin.ModelAdmin):
+    list_display = ('trainer', 'notif', 'status')
 
-admin.site.register(models.TrainerNotification, TrainerNotificationAdmin)
+admin.site.register(models.NotifTrainerStatus, TrainerNotifStatusAdmin)
 
 
 # Subscribers and Admin Messages to Trainer
@@ -154,3 +154,16 @@ class TrainerMessageAdmin(admin.ModelAdmin):
 
 admin.site.register(models.TrainerMessage, TrainerMessageAdmin)
 
+
+# Report for user
+class TrainerSubscriberReportAdmin(admin.ModelAdmin):
+    list_display = ("report_msg", "report_for_trainer", "report_for_user", "report_from_trainer", "report_from_user")
+
+admin.site.register(models.TrainerSubscriberReport, TrainerSubscriberReportAdmin)
+
+
+# Add a website logo through the admin panel
+class AppSettingAdmin(admin.ModelAdmin):
+    list_display = ('image_tag',)
+
+admin.site.register(models.AppSetting, AppSettingAdmin)

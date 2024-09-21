@@ -39,6 +39,11 @@ def faq_list(request):
     return render(request, 'faq.html', {'faqs' : FAQ,})
 
 
+# Contact Us
+def contact_us(request):
+    return render(request, 'contact_us.html')
+
+
 # Enquiry Page
 def enquiry(request):
     
@@ -330,11 +335,35 @@ def trainer_notifs(request):
 
         jsonData.append({
             'pk': d.id,
-            'notify_detail': d.notify_msg,
+            'notify_detail': d.notif_msg,
             'notifStatus': notifStatus
         })
 
     return render(request, 'trainer/notifs.html', {'notifs' : data, 'totalUnread': totalUnread})
+
+
+# Mark read by trainer
+def mark_read_trainer_notif(request):
+    notifs = request.GET.get['notifs']
+    trainer=models.Trainer.objects.get(id = request.session['trainerid'])
+    models.NotifTrainerStatus.objects.create(notification=notifs, trainer=trainer, status=True)
+    notifs = models.TrainerNotification.objects.get(pk=notifs)
+    data = models.TrainerNotification.objects.all().order_by('-id')
+    # Count Unread
+    totalUnread = 0
+
+    for d in data:
+        try:
+            notifStatusData = models.NotifTrainerStatus.objects.get(trainer=trainer, notif=d)
+            if notifStatusData:
+                notifStatus: True
+        except models.NotifTrainerStatus.DoesNotExist:
+            notifStatus = False
+
+        # Count the uread notifs
+        if not notifStatus:
+            totalUnread = totalUnread + 1
+    return JsonResponse({'bool':True, 'totalUnread': totalUnread})
 
 
 # Trainer Messages
@@ -342,3 +371,43 @@ def trainer_msgs(request):
     data = models.TrainerMessage.objects.all().order_by('-id')
 
     return render(request, 'trainer/messages.html', {'msgs' : data})
+
+
+# Report for user from trainer
+def report_for_user(request):
+
+    trainer=models.Trainer.objects.get(id = request.session['trainerid'])
+    msg = ''
+    # Save the posted report and show a message after posting an enquiry
+    if request.method == "POST":
+        form = forms.ReportForUserForm(request.POST)
+        if form.is_valid():
+            new_form = form.save(commit = False)
+            new_form.report_from_trainer = trainer
+            new_form.save()
+            msg = 'Your report has been sent successfully'
+        else:
+            msg = "Invalid form"
+
+    form = forms.ReportForUserForm
+    return render(request, 'report_for_user.html', {'form' : form, 'msg': msg})
+
+
+# Report for trainer from user
+def report_for_trainer(request):
+
+    user = request.user
+    msg = ''
+    # Save the posted report and show a message after posting an enquiry
+    if request.method == "POST":
+        form = forms.ReportForTrainerForm(request.POST)
+        if form.is_valid():
+            new_form = form.save(commit = False)
+            new_form.report_from_user = user
+            new_form.save()
+            msg = 'Your report has been sent successfully'
+        else:
+            msg = "Invalid form"
+
+    form = forms.ReportForTrainerForm
+    return render(request, 'report_for_trainer.html', {'form' : form, 'msg': msg})

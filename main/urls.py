@@ -7,6 +7,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('pagedetail/<int:id>', views.page_detail, name='pagedetail'),
     path('faqs', views.faq_list, name='faq'),
+    path('contact_us', views.contact_us, name='contact_us'),
     path('enquiry', views.enquiry, name='enquiry'),
     path('gallery', views.gallery, name='gallery'),
     path('gallerydetail/<int:id>', views.gallery_detail, name='gallery_detail'),
@@ -31,6 +32,7 @@ urlpatterns = [
     path('trainer_subscribers', views.trainer_subscribers, name='trainer_subscribers'),
     path('trainer_change_password', views.trainer_change_password, name='trainer_change_password'),
     path('trainer_notifs', views.trainer_notifs, name='trainer_notifs'),
+    path('mark_read_trainer_notif', views.mark_read_trainer_notif, name='mark_read_trainer_notif'),
     
 
     # Notifications
@@ -41,6 +43,9 @@ urlpatterns = [
     # Messages
     path('messages', views.trainer_msgs, name='messages'),
 
+    # Reports
+    path('report_for_user', views.report_for_user, name='report_for_user'),
+    path('report_for_trainer', views.report_for_trainer, name='report_for_trainer'),
 ]
 
 

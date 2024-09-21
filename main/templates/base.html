@@ -33,6 +33,7 @@
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light bg-dark">
       <div class="container">
+        <!-- GymSync could be replaced with the logo that will be added through the admin oanel-->
         <a class="navbar-brand" href="{% url 'home' %}" style="color: #ffffff",>GymSync</a>
         <button
           class="navbar-toggler"
@@ -113,7 +114,7 @@
         <a href="{% url 'pagedetail' 2 %}">Privacy</a> .
         <a href="{% url 'pagedetail' 3 %}">Terms</a> .
         <a href="{% url 'faq' %}">F.A.Q.</a> .
-        <a href="#">Contact Us </a>
+        <a href="{% url 'contact_us' %}">Contact Us </a>
       </p>
     </footer>
 

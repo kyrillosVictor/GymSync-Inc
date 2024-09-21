@@ -132,7 +132,7 @@ class SubPlan(models.Model):
 
 # Subscription plan features
 class SubPlanFeature(models.Model):
-    # Many to many, spo each feature can be added to the applicable plan instead of adding manually inside the plan
+    # Many to many, so each feature can be added to the applicable plan instead of adding manually inside the plan
     # We add the feature once in the admin panel and select the plan that could contain this feature
     subplan = models.ManyToManyField(SubPlan)
     feature = models.CharField(max_length=150)
@@ -318,3 +318,22 @@ class TrainerMessage(models.Model):
 
     class Meta:
         verbose_name_plural = "Messages for Trainers"
+
+
+# Send reports to admin
+class TrainerSubscriberReport(models.Model):
+    report_from_trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True, related_name='report_from_trainer')
+    report_from_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='report_from_user')
+
+    report_for_trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE, null=True, related_name='report_for_trainer')
+    report_for_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='report_for_user')
+
+    report_msg = models.TextField()
+
+
+# Add a website logo through the admin panel
+class AppSetting(models.Model):
+    logo_img = models.ImageField(upload_to='app_logos/')
+
+    def image_tag(self):
+        return mark_safe('<img src="%s" width="80"/>' % (self.logo_img.url))
